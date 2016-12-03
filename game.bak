@@ -1,0 +1,123 @@
+program game;
+uses crt;
+label
+    awal;
+    akhir;
+var
+    nama : string[10];
+    weapon : string;
+    x,hp,weapon_id,step : integer;
+    att : real;
+    ya : char;
+    masih : boolean;
+    acak : integer;
+begin
+    Randomize;
+    clrscr;
+    hp := 100;
+    weapon_id := 1;
+    step := 0;
+    weapon_id := 1;
+    weapon := 'Punch';
+    att := 2.1;
+    masih := true;
+
+
+    writeln('Selamat Datang di Game JourneBoyz');
+    writeln('Sebelum memulai, beri nama karaktermu (max 10)');
+    readln(nama);
+    clrscr;
+    writeln('Halo ', nama, ', sekarang kamu ada di dunia Jouphoria.');
+    writeln('Apakah kamu siap menjelajahinya? [y/n]');
+    readln(ya);
+    if ya = 'y' then
+    begin
+        writeln('Sebelum mulai berpetualang, sebaiknya kamu tahu statusmu dahulu');
+        writeln('========== STATUS ==========');
+        writeln('   Health : ', hp);
+        writeln('   Weapon : ', weapon);
+        writeln('   Step   : ', step);
+        writeln('============================');
+        writeln;
+        writeln('Kamu bisa cek statusmu kapan saja dengan keyword 9');
+        delay(5000);
+        clrscr;
+        while(masih) do
+        begin
+            awal:
+            case weapon_id of
+                1: begin
+                    weapon := 'Punch';
+                    att := 2.1;
+                end;
+                2: begin
+                    weapon := 'Stick';
+                    att := 2.9;
+                end;
+                3: begin
+                    weapon := 'Steel';
+                    att := 3.3;
+                end;
+            end;
+
+            write('Maju berapa langkah? (max 3) : ');
+            readln(x);
+            if (x <= 3) AND (x > 0) then
+                begin
+                writeln('Maju ', x, ' langkah');
+                step := step + x;
+                end
+            else if x < 0 then
+                writeln('Tidak bisa kurang dari 0')
+            else if x = 0 then
+                begin
+                writeln('Sayang sekali, sebenarnya perjalanan masih sangat panjang.');
+                writeln('Sampai jumpa lagi ', nama);
+                masih := false;
+                goto akhir;
+                end
+            else if x = 9 then
+                begin
+                clrscr;
+                writeln('========== STATUS ==========');
+                writeln('   Health : ', hp);
+                writeln('   Weapon : ', weapon);
+                writeln('   Step   : ', step);
+                writeln('============================');
+                writeln;
+                goto awal;
+                end
+            else
+                begin
+                writeln('Hanya bisa max 3 langkah');
+                delay(1000);
+                writeln('Maju 3 langkah');
+                step := step + 3;
+            end;
+
+            delay(2000);
+            clrscr;
+
+            acak := random(1000);
+            if acak < 10 then
+                begin
+                writeln('Kamu terkena serangan tak dikenal dan darahmu berkurang 15');
+                hp := hp - 15;
+                end
+            else if acak < 900 then
+                begin
+                writeln('Kamu mendapat senjata Steel');
+                weapon_id := 3;
+                end
+            else
+                writeln('Kamu aman dan tetap bisa melanjutkan perjalanan');
+
+            akhir: {Langsung akhir}
+        end;
+    end
+
+    else
+        writeln('Baiklah ', nama, ', mungkin lain kali.');
+
+    readln;
+end.
